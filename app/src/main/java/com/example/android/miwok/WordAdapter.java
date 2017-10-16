@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -45,22 +45,14 @@ public class WordAdapter extends ArrayAdapter<Word> {
             imageView.setVisibility(View.GONE);
         }
 
-        LinearLayout linearLayout = (LinearLayout) listItemView.findViewById(R.id.backgroundWords);
-        linearLayout.setBackgroundResource(mColorResourceId);
+        RelativeLayout relativeLayout = (RelativeLayout) listItemView.findViewById(R.id.backgroundWords);
+        relativeLayout.setBackgroundResource(mColorResourceId);
 
         TextView miwokTextView = (TextView) listItemView.findViewById(R.id.textViewMiwokTranslation);
         miwokTextView.setText(currentWord.getMiwokTranslation());
 
         TextView defaultTextView = (TextView) listItemView.findViewById(R.id.textViewDefaultTranslation);
         defaultTextView.setText(currentWord.getDefaultTranslation());
-
-//        listItemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mediaPlayer = MediaPlayer.create(getContext(), currentWord.getAudioResourceID());
-//                mediaPlayer.start();
-//            }
-//        });
 
         return listItemView;
 

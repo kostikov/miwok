@@ -1,5 +1,7 @@
 package com.example.android.miwok;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +13,23 @@ import java.util.ArrayList;
 
 public class NumbersActivity extends AppCompatActivity {
 
-    private MediaPlayer mediaPlayer;
+    private MediaPlayer mMediaPlayer;
+    AudioManager.OnAudioFocusChangeListener listener = new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int i) {
+
+            if (i == AudioManager.AUDIOFOCUS_GAIN) {
+                mMediaPlayer.start();
+            } else if (i == AudioManager.AUDIOFOCUS_LOSS) {
+                mMediaPlayer.release();
+            } else if (i == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ||
+                    i == AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK) {
+                mMediaPlayer.pause();
+                mMediaPlayer.seekTo(0);
+            }
+        }
+    };
+    private AudioManager mAudioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +51,10 @@ public class NumbersActivity extends AppCompatActivity {
 
         WordAdapter wordAdapter = new WordAdapter(this, words, R.color.category_numbers);
 
-        ListView listView = (ListView) findViewById(R.id.wordList);
+        final ListView listView = (ListView) findViewById(R.id.wordList);
         listView.setAdapter(wordAdapter);
+
+        mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,8 +64,13 @@ public class NumbersActivity extends AppCompatActivity {
 
                 Word currentWord = words.get(i);
 
-                mediaPlayer = MediaPlayer.create(NumbersActivity.this, currentWord.getAudioResourceID());
-                mediaPlayer.start();
+                int result = mAudioManager.requestAudioFocus(listener, AudioManager.STREAM_MUSIC,
+                        AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    mMediaPlayer = MediaPlayer.create(NumbersActivity.this, currentWord.getAudioResourceID());
+                    mMediaPlayer.start();
+                }
 
             }
         });
@@ -54,20 +79,16 @@ public class NumbersActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-
         super.onStop();
-
         releaseMediaPlayer();
-
     }
 
     private void releaseMediaPlayer() {
 
-        if (mediaPlayer != null) {
-
-            mediaPlayer.release();
-            mediaPlayer = null;
-
+        if (mMediaPlayer != null) {
+            mMediaPlayer.release();
+            mMediaPlayer = null;
+            mAudioManager.abandonAudioFocus(listener);
         }
 
     }
