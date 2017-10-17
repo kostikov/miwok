@@ -51,7 +51,7 @@ public class NumbersActivity extends AppCompatActivity {
 
         WordAdapter wordAdapter = new WordAdapter(this, words, R.color.category_numbers);
 
-        final ListView listView = (ListView) findViewById(R.id.wordList);
+        final ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(wordAdapter);
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);

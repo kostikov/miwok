@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
 
         final Word currentWord = getItem(position);
 
-        ImageView imageView = (ImageView) listItemView.findViewById(R.id.imageViewPicture);
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.image);
 
         if (currentWord.hasImage()) {
             imageView.setImageResource(currentWord.getImageResource());
@@ -45,13 +45,13 @@ public class WordAdapter extends ArrayAdapter<Word> {
             imageView.setVisibility(View.GONE);
         }
 
-        RelativeLayout relativeLayout = (RelativeLayout) listItemView.findViewById(R.id.backgroundWords);
-        relativeLayout.setBackgroundResource(mColorResourceId);
+        LinearLayout linearLayout = (LinearLayout) listItemView.findViewById(R.id.text_container);
+        linearLayout.setBackgroundResource(mColorResourceId);
 
-        TextView miwokTextView = (TextView) listItemView.findViewById(R.id.textViewMiwokTranslation);
+        TextView miwokTextView = (TextView) listItemView.findViewById(R.id.miwok_text_view);
         miwokTextView.setText(currentWord.getMiwokTranslation());
 
-        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.textViewDefaultTranslation);
+        TextView defaultTextView = (TextView) listItemView.findViewById(R.id.default_text_view);
         defaultTextView.setText(currentWord.getDefaultTranslation());
 
         return listItemView;

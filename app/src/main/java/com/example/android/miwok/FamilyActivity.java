@@ -59,7 +59,7 @@ public class FamilyActivity extends AppCompatActivity {
 
         final WordAdapter wordAdapter = new WordAdapter(this, words, R.color.category_family);
 
-        ListView listView = (ListView) findViewById(R.id.wordList);
+        ListView listView = (ListView) findViewById(R.id.list);
         listView.setAdapter(wordAdapter);
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -101,6 +101,7 @@ public class FamilyActivity extends AppCompatActivity {
             mediaPlayer = null;
             audioManager.abandonAudioFocus(listener);
         }
+
 
     }
 }
