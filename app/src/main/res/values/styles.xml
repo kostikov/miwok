@@ -41,4 +41,8 @@
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
         <item name="android:textColor">#FFFFFF</item>
     </style>
+
+    <style name="Tabs">
+        <item name="android:background">#4A312A</item>
+    </style>
 </resources>
